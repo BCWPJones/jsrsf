@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Recursive Locator</title>
+        <style>
+            body {
+                text-align: center;
+            }
+            #result {
+                font-weight: bold;
+            }
+        </style>
+        <script
+  src="http://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+        <script>
+            function recurFinder(amount, tempObj) {
+                if (amount <= 0) {
+                    
+                } else if (amount >= 10) {
+                    tempObj.ten++;
+                    amount-=10;
+                    recurFinder(amount, tempObj);
+                } else if (amount < 10 && amount >= 5) {
+                    tempObj.five++;
+                    amount-=5;
+                    recurFinder(amount, tempObj);
+                } else if (amount < 5 && amount >= 2) {
+                    tempObj.two++;
+                    amount-=2;
+                    recurFinder(amount, tempObj);
+                } else if (amount == 1) {
+                    tempObj.one++;
+                    amount-=1;
+                    recurFinder(amount, tempObj);
+                }
+                return tempObj;
+            }
+            
+            function printRes(tempObj) {
+                $('#result').empty();
+                $('#result').append('<hr/>');
+                $('#result').append('<p>你需要：</p>');
+                if (tempObj.one != 0) {
+                    $('#result').append('<p>'+tempObj.one+'个一元；</p>')
+                }
+                if (tempObj.two != 0) {
+                    $('#result').append('<p>'+tempObj.two+'个两元；</p>')
+                }
+                if (tempObj.five != 0) {
+                    $('#result').append('<p>'+tempObj.five+'个五元；</p>')
+                }
+                if (tempObj.ten != 0) {
+                    $('#result').append('<p>'+tempObj.ten+'个十元；</p>')
+                }
+            }
+        
+            $(document).ready(function() {
+                $('#exec').click(function() {
+                    var amount = $('#amount').val();
+                    var tempObj = {one: 0, two: 0, five: 0, ten: 0};
+                    recurFinder(amount, tempObj);
+                    printRes(tempObj);
+                });
+                $('#clr').click(function() {
+                    $('#result').empty();
+                });
+            });
+        </script>
+    </head>
+    
+    <body>
+        <h1>Recursive Locator</h1>
+        <h2>输入任意整数，我会尝试用1、2、5、10元的钱来凑齐你输入的整数</h2>
+        <hr/><br/>
+        请输入：<input type="number" name="" id="amount" value="" />
+        <button id="exec">Go! </button>&nbsp;<button id="clr">Clear! </button>
+        <div id="result"></div>
+    </body>
+</html>
